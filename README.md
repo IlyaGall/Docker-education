@@ -14,3 +14,5 @@
 и получаем магию
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/1.JPG)
+
+![img](https://github.com/IlyaGall/Docker-education/blob/main/img/2.JPG)
