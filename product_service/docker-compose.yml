@@ -51,13 +51,13 @@ services:
 
   postgres5:
     image: postgres:14
-    container_name: postgres5
+    container_name: ClusterService_5004
     environment:
-      POSTGRES_USER: admin5
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password5
-      POSTGRES_DB: db5
+      POSTGRES_DB: ClusterService
     ports:
-      - "5437:5432"  # Пятая БД на порту 5436
+      - "5004:5432"  # Пятая БД на порту 5436
     volumes:
       - postgres_data5:/var/lib/postgresql/data
 
