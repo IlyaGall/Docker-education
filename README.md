@@ -1,5 +1,8 @@
 # Docker-education
-Создание докер compose для бд
+
+Создание докер compose для бд на основе существующего postgresql
+
+[пример](https://github.com/IlyaGall/Docker-education/blob/main/product_service/First%20docker/docker-compose.yml)
 
 Сначала генерируем файл ```docker-compose.yml```
 
@@ -39,6 +42,14 @@
 
 ## отправка на сервер docker hub образа
 
+### создание репозитория
+
+нужно создать репозиторий с именем, как выше
+
+![img](https://github.com/IlyaGall/Docker-education/blob/main/img/8.JPG)
+
+### Загрузка образа
+
 ```docker login```
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/6.JPG)
@@ -52,4 +63,4 @@
 
 ## использование с decker hub образца
 
-[пример]()
+[пример](https://github.com/IlyaGall/Docker-education/blob/main/product_service/docker-compose.yml)
