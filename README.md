@@ -63,4 +63,6 @@
 
 ## использование с decker hub образца
 
+затем уже ссылаемся на [репозиторий](https://hub.docker.com/repositories/ilyagall01)
+
 [пример](https://github.com/IlyaGall/Docker-education/blob/main/product_service/docker-compose.yml)
