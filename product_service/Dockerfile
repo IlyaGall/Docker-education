@@ -1,0 +1,1 @@
+docker build -t my-postgres:1.0 .
