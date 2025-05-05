@@ -1,6 +1,6 @@
 services:
   postgres1:
-    image: postgres:14
+    image: ilyagall01/product-service2:latest1 
     container_name: ShopService_5001
     environment:
       POSTGRES_USER: postgres
@@ -12,7 +12,7 @@ services:
       - postgres_data1:/var/lib/postgresql/data
 
   postgres2:
-    image: postgres:14
+    image: ilyagall01/product-service2:latest1 
     container_name: ProductsService_5000
     environment:
       POSTGRES_USER: postgres
@@ -24,7 +24,7 @@ services:
       - postgres_data2:/var/lib/postgresql/data
 
   postgres3:
-    image: postgres:14
+    image: ilyagall01/product-service2:latest1 
     container_name: FavoriteService_5002
     environment:
       POSTGRES_USER: postgres
@@ -36,7 +36,7 @@ services:
       - postgres_data3:/var/lib/postgresql/data
 
   postgres4:
-    image: postgres:14
+    image: ilyagall01/product-service2:latest1 
     container_name: CommentService_5003
     environment:
       POSTGRES_USER: postgres
@@ -48,7 +48,7 @@ services:
       - postgres_data4:/var/lib/postgresql/data
 
   postgres5:
-    image: postgres:14
+    image: ilyagall01/product-service2:latest1 
     container_name: ClusterService_5004
     environment:
       POSTGRES_USER: postgres
