@@ -1,0 +1,5 @@
+FROM postgres:14
+# Добавьте свои кастомные настройки, если нужно
+# COPY init.sql /docker-entrypoint-initdb.d/  # Например, SQL-скрипт для инициализации
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=defaultpassword

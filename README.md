@@ -30,6 +30,7 @@
 
 ```docker tag 4836bc848e0d product-service:latest```
 
+
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/3.JPG)
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/4.JPG)
