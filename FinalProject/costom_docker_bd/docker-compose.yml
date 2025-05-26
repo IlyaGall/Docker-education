@@ -1,67 +1,138 @@
+version: '3.8'
+
 services:
+  # Сервис-загрузчик дампов (использует ваш образ из Docker Hub)
+  dumps-loader:
+    image: ilyagall01/postgres-dumps:v1
+    environment:
+      PASSWORD1: ${SHOP_DB_PASSWORD}
+      PASSWORD2: ${PRODUCTS_DB_PASSWORD}
+      PASSWORD3: ${FAVORITE_DB_PASSWORD}
+      PASSWORD4: ${COMMENT_DB_PASSWORD}
+      PASSWORD5: ${CLUSTER_DB_PASSWORD}
+    volumes:
+      - ./dumps:/dumps
+    depends_on:
+      postgres1:
+        condition: service_healthy
+      postgres2:
+        condition: service_healthy
+      postgres3:
+        condition: service_healthy
+      postgres4:
+        condition: service_healthy
+      postgres5:
+        condition: service_healthy
+    networks:
+      - db-network
+
+  # Сервис 1: ShopService
   postgres1:
-    image: ilyagall01/product-service2:latest1 
-    container_name: ShopService_5001
+    image: postgres:14
+    container_name: shop-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password1
+      POSTGRES_PASSWORD: ${SHOP_DB_PASSWORD}
       POSTGRES_DB: ShopService
     ports:
-      - "5001:5432"  # Первая БД на стандартном порту # нельзя на стандартном порту
+      - "5001:5432"
     volumes:
-      - postgres_data1:/var/lib/postgresql/data
+      - pgdata1:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ShopService"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - db-network
 
+  # Сервис 2: ProductsService
   postgres2:
-    image: ilyagall01/product-service2:latest1 
-    container_name: ProductsService_5000
+    image: postgres:14
+    container_name: products-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password2
+      POSTGRES_PASSWORD: ${PRODUCTS_DB_PASSWORD}
       POSTGRES_DB: ProductsService
     ports:
-      - "5000:5432"  # Вторая БД на порту 5000
+      - "5002:5432"
     volumes:
-      - postgres_data2:/var/lib/postgresql/data
+      - pgdata2:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ProductsService"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - db-network
 
+  # Сервис 3: FavoriteService
   postgres3:
-    image: ilyagall01/product-service2:latest1 
-    container_name: FavoriteService_5002
+    image: postgres:14
+    container_name: favorite-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password3
+      POSTGRES_PASSWORD: ${FAVORITE_DB_PASSWORD}
       POSTGRES_DB: FavoriteService
     ports:
-      - "5002:5432"  # Третья БД на порту 5002
+      - "5003:5432"
     volumes:
-      - postgres_data3:/var/lib/postgresql/data
+      - pgdata3:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d FavoriteService"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - db-network
 
+  # Сервис 4: CommentService
   postgres4:
-    image: ilyagall01/product-service2:latest1 
-    container_name: CommentService_5003
+    image: postgres:14
+    container_name: comment-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password4
+      POSTGRES_PASSWORD: ${COMMENT_DB_PASSWORD}
       POSTGRES_DB: CommentService
     ports:
-      - "5003:5432"  # Четвертая БД на порту 5435
+      - "5004:5432"
     volumes:
-      - postgres_data4:/var/lib/postgresql/data
+      - pgdata4:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d CommentService"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - db-network
 
+  # Сервис 5: ClusterService
   postgres5:
-    image: ilyagall01/product-service2:latest1 
-    container_name: ClusterService_5004
+    image: postgres:14
+    container_name: cluster-db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password5
+      POSTGRES_PASSWORD: ${CLUSTER_DB_PASSWORD}
       POSTGRES_DB: ClusterService
     ports:
-      - "5004:5432"  # Пятая БД на порту 5436
+      - "5005:5432"
     volumes:
-      - postgres_data5:/var/lib/postgresql/data
+      - pgdata5:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ClusterService"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - db-network
 
 volumes:
-  postgres_data1:
-  postgres_data2:
-  postgres_data3:
-  postgres_data4:
-  postgres_data5:
+  pgdata1:
+  pgdata2:
+  pgdata3:
+  pgdata4:
+  pgdata5:
+
+networks:
+  db-network:
+    driver: bridge
