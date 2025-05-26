@@ -1,27 +1,28 @@
 # Авторизация в Docker Hub
-docker login
+docker logout
+docker login --username "ilyagall01"
 
-# Параметры (замените на свои реальные данные)
-$dockerHubUsername = "ilyagall01"  # Ваш логин Docker Hub
-$repositoryPrefix = "product-bd-"  # Префикс репозиториев (должен быть в lowercase)
-$tag = "latest"
+# Параметры
+$dockerHubRepo = "ilyagall01/product_bd"  # Единый репозиторий
+$tagPrefix = "db-"  # Префикс для тегов
 
-# Список контейнеров
+# Список контейнеров и их тегов
 $containers = @(
-    @{OriginalName="Products_bd_5000"; DbName="products"},
-    @{OriginalName="Shop_bd_5001"; DbName="shop"},
-    @{OriginalName="Favorite_bd_5002"; DbName="favorite"},
-    @{OriginalName="Comment_bd_5003"; DbName="comment"},
-    @{OriginalName="Cluster_bd_5004"; DbName="cluster"}
+    @{OriginalName="Products_bd_5000"; Tag="products"},
+    @{OriginalName="Shop_bd_5001"; Tag="shop"},
+    @{OriginalName="Favorite_bd_5002"; Tag="favorite"},
+    @{OriginalName="Comment_bd_5003"; Tag="comment"},
+    @{OriginalName="Cluster_bd_5004"; Tag="cluster"}
 )
 
 foreach ($container in $containers) {
-    # Формируем полное имя образа (все символы должны быть в нижнем регистре)
-    $imageName = "$dockerHubUsername/$($repositoryPrefix)$($container.DbName):$tag".ToLower()
+    # Формируем полное имя образа с тегом
+    $imageName = "$dockerHubRepo`:$($tagPrefix)$($container.Tag)"
+    $imageName = $imageName.ToLower()  # Docker требует нижний регистр
+
+    Write-Host "🔄 Обрабатываем контейнер $($container.OriginalName) -> $imageName"
     
-    Write-Host "Обрабатываем контейнер $($container.OriginalName) -> $imageName"
-    
-    # Останавливаем контейнер для сохранения целостности
+    # Останавливаем контейнер для сохранения целостности данных
     docker stop $container.OriginalName
     
     # Создаем образ из контейнера
@@ -31,9 +32,10 @@ foreach ($container in $containers) {
     docker start $container.OriginalName
     
     # Пушим образ в Docker Hub
+    Write-Host "⬆️ Загружаем образ в Docker Hub..."
     docker push $imageName
     
-    Write-Host "Образ успешно загружен: $imageName"
+    Write-Host "✅ Успешно: $imageName"
 }
 
-Write-Host "Все образы успешно выгружены в Docker Hub"
+Write-Host "🎉 Все образы загружены в репозиторий $dockerHubRepo!"
