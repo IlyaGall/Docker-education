@@ -157,8 +157,7 @@ volumes:
     5. Дамп ClusterService (postgres5)
 * ```docker-compose exec postgres5 pg_dump -U postgres -d ClusterService > cluster_dump.sql```
 
-#### создание dumps через автоматизированный скрипт
-
+2. Создание dumps через автоматизированный скрипт
 
 
 файл скприта ```add_docker_hub.ps1``` представлен ниже, чтобы он работал рядом с ним нужно создать папку в проводнике под названием dumps
@@ -293,6 +292,3 @@ volumes:
 
 ```
 
-затем уже ссылаемся на [репозиторий](https://hub.docker.com/repositories/ilyagall01)
-
-[пример](https://github.com/IlyaGall/Docker-education/blob/main/product_service/docker-compose.yml)
