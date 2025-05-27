@@ -1,8 +1,9 @@
 # Docker-education
 
-Создание докер compose для бд на основе существующего postgresql
+Создание докер compose для бд на основе существующего postgresql c помощью ```docker-compose.yml```. Нужно создать файл в директории windows.
 
-[пример](https://github.com/IlyaGall/Docker-education/blob/main/FinalProject/base_docker_bd/docker-compose.yml)
+
+[пример github](https://github.com/IlyaGall/Docker-education/blob/main/FinalProject/base_docker_bd/docker-compose.yml)
 
 код примера:
 
@@ -78,90 +79,82 @@ volumes:
   postgres_data5:
 ```
 
-
-
-Сначала генерируем файл ```docker-compose.yml```
-
-
-потом в power shell открываем, где он лежит ```cd -path C:\Users\Ilya\Desktop\docker```
-
-
-затем запуск
-
-```docker-compose up -d```
-
-и получаем магию
+Для запуска скрипта нужно:
+* Powershell открыть директорию, где он лежит, например, ```cd -path C:\Users\Ilya\Desktop\docker```
+* после перехода по пути нужно, выполнить скрипт ```docker-compose up -d```
+* затем получим следующую картину (рисунок 1 и рисунок 2):
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/1.JPG)
 
+рисуник 1. Скачивание и установка images с контенерами
+
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/2.JPG)
 
+рисунок 2. screenshoot docker desktop с развернутым images
 
+## Переменование Images в нутри docker desktop
 
-## как переменовать
+В связи с тем, что базовый images(образ) нельзя в зашрузить(push) docker-hub для этого нужно написать комадну, которая переменует images
 
-Так как загрузить образ базовый нельзя в docker-hub для этого нужно написать комадну, которая переменует images
+* ```docker tag <IMAGE_ID> <НОВОЕ_ИМЯ>:<ТЕГ>``` - пример 1, в не рамках системы
+* ```docker tag 4836bc848e0d product-service:latest```- пример 2 в powershell, важно отметить, то что нажимать на иконку копировать в виде квадратиков не стоит, он копирует полное имя, которое после копирования не сработает, поэтому нужно копировать имя с помощью выделения и сочения клавиш ctr+c
 
-```docker tag <IMAGE_ID> <НОВОЕ_ИМЯ>:<ТЕГ>```
-
-```docker tag 4836bc848e0d product-service:latest```
-
+На рисунках 3 и 4 отображён процесс копирования:
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/3.JPG)
 
+рисунок 3. До переменовывания
+
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/4.JPG)
 
-!нужно переменовывать с логином инача ошибка
+рисунок 4. После переменыновыния images 
 
-```docker tag 4836bc848e0d ilyagall01/product-service:latest```
-
-
+ТАк же нужно отметить, что переменовывать нужно на такое же название, как и в созданном репозитирии+nickname, в противном случае будет ошибка, например, вот так: ```docker tag 4836bc848e0d ilyagall01/product-service:latest``` 
 
 ## отправка на сервер docker hub образа
 
 ### создание репозитория
 
-нужно создать репозиторий с именем, как выше
+нужно создать репозиторий с именем, как в предыдущем пункте, например, такое ```ilyagall01/product-service```, на рисунке 5 показан репозиторий в docker-hub, который совпадает с названием images, локальным в docker desktop
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/8.JPG)
 
+рисунок 5. Docker -hub
+
 ### Загрузка образа
 
-```docker login```
+Для того чтобы загрузить образ в docker-hub, нужно в powerShell авторизироваться ```docker login```, как показано на рисунке 6.
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/6.JPG)
 
+рисунок 6.
 
-```docker push ilyagall01/product-service:latest```
+Команда в powershell ```docker push ilyagall01/product-service:latest``` позволяет выгрузить образ в docker репозиторий, важно отметить, что ```:latest``` означает тег в репозитории. На рисунке 7, отображён screenshoot процесс импорта данных из docker-destop в docker hub.
 
 ![img](https://github.com/IlyaGall/Docker-education/blob/main/img/5.JPG)
+
+рисунок 7. 
 
 
 ### создание dump
 
-!в docker-hub выгружаются данные таблиц с косяками, поэтому нужно создовать dump файлы.
 
+К сожелению  в в docker-hub выгружаются таблицы и данные не корретно, поэтому требуется создать dump файлы бд. Для этого можно воспользоваться 2 способами, представленными ниже:
+1. С помощью команд, командны нужно перменять для каждого контенра по отдельности, что бывает трудоёмким . Для выполнения комнады требуется в войти в powershell и вызвать команды для каждого контенера по отдельности:
 
-с помощью скрипта в ручную
-
-
-
-дамб в ручную через powershell и админа:
-
-
-1. Дамп ShopService (postgres1)
+    1. Дамп ShopService (postgres1)
 * ```docker-compose exec postgres1 pg_dump -U postgres -d ShopService > shop_dump.sql```
 
-2. Дамп ProductsService (postgres2)
+    2. Дамп ProductsService (postgres2)
 * ```docker-compose exec postgres2 pg_dump -U postgres -d ProductsService > products_dump.sql```
 
-3. Дамп FavoriteService (postgres3)
+    3. Дамп FavoriteService (postgres3)
 * ```docker-compose exec postgres3 pg_dump -U postgres -d FavoriteService > favorite_dump.sql```
-
-4. Дамп CommentService (postgres4)
+ 
+    4. Дамп CommentService (postgres4)
 * ```docker-compose exec postgres4 pg_dump -U postgres -d CommentService > comment_dump.sql```
 
-5. Дамп ClusterService (postgres5)
+    5. Дамп ClusterService (postgres5)
 * ```docker-compose exec postgres5 pg_dump -U postgres -d ClusterService > cluster_dump.sql```
 
 #### создание dumps через автоматизированный скрипт
