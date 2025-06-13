@@ -61,9 +61,36 @@ services:
     volumes:
       - postgres_data5:/var/lib/postgresql/data
 
+
+  postgres6:
+    image: postgres:14
+    container_name: AuthService_5005
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password6
+      POSTGRES_DB: AuthService
+    ports:
+      - "5005:5432"  # Пятая БД на порту 5436
+    volumes:
+      - postgres_data5:/var/lib/postgresql/data
+
+  postgres7:
+    image: postgres:14
+    container_name: OwnerShop_5006
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password7
+      POSTGRES_DB: OwnerShop
+    ports:
+      - "5006:5432"  # Пятая БД на порту 5436
+    volumes:
+      - postgres_data5:/var/lib/postgresql/data
+
 volumes:
   postgres_data1:
   postgres_data2:
   postgres_data3:
   postgres_data4:
   postgres_data5:
+  postgres_data6:
+  postgres_data7:
