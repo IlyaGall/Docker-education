@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres1:
-    image: ilyagall01/product-service2:latest1
+    image: postgres:14
     container_name: Products_bd_5000
     environment:
       POSTGRES_USER: postgres
@@ -15,7 +15,7 @@ services:
       - ./dumps/products_dump.sql:/docker-entrypoint-initdb.d/products_init.sql
 
   postgres2:
-    image: ilyagall01/product-service2:latest1
+    image: postgres:14
     container_name: Shop_bd_5001
     environment:
       POSTGRES_USER: postgres
@@ -28,7 +28,7 @@ services:
       - ./dumps/shop_dump.sql:/docker-entrypoint-initdb.d/shop_init.sql
 
   postgres3:
-    image: ilyagall01/product-service2:latest1
+    image: postgres:14
     container_name: Favorite_bd_5002
     environment:
       POSTGRES_USER: postgres
@@ -41,7 +41,7 @@ services:
       - ./dumps/favorite_dump.sql:/docker-entrypoint-initdb.d/favorite_init.sql
 
   postgres4:
-    image: ilyagall01/product-service2:latest1
+    image: postgres:14
     container_name: Comment_bd_5003
     environment:
       POSTGRES_USER: postgres
@@ -54,7 +54,7 @@ services:
       - ./dumps/comment_dump.sql:/docker-entrypoint-initdb.d/comment_init.sql
 
   postgres5:
-    image: ilyagall01/product-service2:latest1
+    image: postgres:14
     container_name: Cluster_bd_5004
     environment:
       POSTGRES_USER: postgres
@@ -68,7 +68,7 @@ services:
 
   postgres6:
     image: postgres:14
-    container_name: AuthService_5005
+    container_name: AuthService_5008
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password6
@@ -77,10 +77,10 @@ services:
       - "5008:5432"  # Пятая БД на порту 5436
     volumes:
       - postgres_data6:/var/lib/postgresql/data
-
+      - ./dumps/auth_dump.sql:/docker-entrypoint-initdb.d/auth_init.sql
   postgres7:
     image: postgres:14
-    container_name: OwnerShop_5006
+    container_name: OwnerShop_5009
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password7

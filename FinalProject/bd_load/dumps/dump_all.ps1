@@ -3,7 +3,9 @@ $containers = @(
     @{Name="Products_bd_5000"; DB="ProductsService"; Password="password2"; DumpFile="products_dump.sql"},
     @{Name="Favorite_bd_5002"; DB="FavoriteService"; Password="password3"; DumpFile="favorite_dump.sql"},
     @{Name="Comment_bd_5003"; DB="CommentService"; Password="password4"; DumpFile="comment_dump.sql"},
-    @{Name="Cluster_bd_5004"; DB="ClusterService"; Password="password5"; DumpFile="cluster_dump.sql"}
+    @{Name="Cluster_bd_5004"; DB="ClusterService"; Password="password5"; DumpFile="cluster_dump.sql"},
+    @{Name="AuthService_5008"; DB="AuthService"; Password="password6"; DumpFile="auth_dump.sql"},
+    @{Name="OwnerShop_5009"; DB="OwnerShop"; Password="password7"; DumpFile="ownershop_dump.sql"}
 )
 
 foreach ($container in $containers) {
